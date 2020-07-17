@@ -24,6 +24,8 @@ Additional Challenges:
 * With the additional placements output, include the competitors' scores
 * Allow user or file input of results
 '''
+from itertools import groupby
+
 
 def get_runners_up1(results):
     # Solution using lists
@@ -84,6 +86,23 @@ def get_runners_up4(results):
     scores = sorted({results[i][1] for i in range(len(results))})
     return sorted([results[i][0] for i in range(len(results)) 
         if results[i][1] == scores[-2]])
+
+
+def get_runners_up5(results):
+    # Solution using groupby
+	list_ = sorted(results, key=lambda x: (x[1], x[0]))
+	return [[names for names,_ in group]
+            for key, group in groupby(list_, key=lambda x: x[1])][-2]
+
+
+def get_runners_up6(results):
+    # solution using dictionary
+	d = dict()
+	for name, scored in sorted(results, key=lambda x: (x[1], x[0])):
+		d.setdefault(scores, []).append(name)
+    # d.keys() is an iterable of the dict's keys (which are the scores)
+    # but it's not subscriptable, so it needs to be converted to a list.
+	return d[list(d.keys())[-2]]
 
 
 if __name__ == '__main__':
